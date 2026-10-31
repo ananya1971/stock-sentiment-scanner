@@ -1,0 +1,63 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="PZaxPZnCDhgp2FMVcV-a">
+    <mxGraphModel dx="774" dy="549" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;" value="Start Program (Main.java) / User Terminal" vertex="1">
+          <mxGeometry height="80" width="180" x="210" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-2" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;defaultLabelBackgroundColor=page;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry relative="1" width="140" as="geometry">
+            <Array as="points" />
+            <mxPoint x="299.5" y="100" as="sourcePoint" />
+            <mxPoint x="300" y="160" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-3" parent="1" style="whiteSpace=wrap;html=1;" value="Prompt User for Ticker Symbol using Java Scanner" vertex="1">
+          <mxGeometry height="60" width="120" x="240" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-4" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;defaultLabelBackgroundColor=page;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry relative="1" width="140" as="geometry">
+            <Array as="points" />
+            <mxPoint x="299.5" y="220" as="sourcePoint" />
+            <mxPoint x="299.5" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-5" parent="1" style="whiteSpace=wrap;html=1;" value="Send HTTP GET Request (using java.net.http.HttpClient) to Finnhub" vertex="1">
+          <mxGeometry height="60" width="130" x="240" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-6" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;defaultLabelBackgroundColor=page;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry relative="1" width="140" as="geometry">
+            <Array as="points" />
+            <mxPoint x="299.5" y="360" as="sourcePoint" />
+            <mxPoint x="299.5" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-7" parent="1" style="whiteSpace=wrap;html=1;" value="Parse JSON Response to get headlines into ArrayList" vertex="1">
+          <mxGeometry height="60" width="120" x="245" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-8" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;defaultLabelBackgroundColor=page;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry relative="1" width="140" as="geometry">
+            <Array as="points" />
+            <mxPoint x="299.5" y="500" as="sourcePoint" />
+            <mxPoint x="299.5" y="590" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-9" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;" value="Keyword Matching Logic" vertex="1">
+          <mxGeometry height="90" width="95" x="252.5" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Print Final Sentiment Rating (bullish, neutral, bearish) to terminal" vertex="1">
+          <mxGeometry height="60" width="120" x="240" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="nMYpFWEI7-w5Qt4sxWzm-11" edge="1" parent="1" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;rounded=0;fontSize=12;defaultLabelBackgroundColor=page;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry relative="1" width="140" as="geometry">
+            <Array as="points" />
+            <mxPoint x="299.5" y="680" as="sourcePoint" />
+            <mxPoint x="299.5" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
