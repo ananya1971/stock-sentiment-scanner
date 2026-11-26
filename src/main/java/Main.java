@@ -2,11 +2,17 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
+    // Paste your free Finnhub API key here
+    private static final String API_KEY = "dc3qjrhr01qk29kd4e00dc3qjrhr01qk29kd4e0g";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -15,15 +21,21 @@ public class Main {
         String ticker = scanner.nextLine().trim().toUpperCase();
 
         if (ticker.isEmpty()) {
-            System.out.println("Error: ticker cannot be empty.");
+            System.out.println("Error: Ticker cannot be empty.");
             scanner.close();
             return;
         }
 
-        System.out.println("Getting news headlines for " + ticker + "...");
+        System.out.println("Fetching live news headlines for " + ticker + "...");
 
-        // Network Client and API Request
-        String url = "https://jsonplaceholder.typicode.com/posts";
+        // Build date range (last 7 days) for Finnhub company-news endpoint
+        LocalDate today = LocalDate.now();
+        LocalDate weekAgo = today.minusDays(7);
+        String url = String.format(
+            "https://finnhub.io/api/v1/company-news?symbol=%s&from=%s&to=%s&token=%s",
+            ticker, weekAgo, today, API_KEY
+        );
+
         List<String> headlines = new ArrayList<>();
 
         try {
@@ -35,39 +47,53 @@ public class Main {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            // Processing
             if (response.statusCode() == 200) {
-                headlines.add(ticker + " reports massive revenue surge and record quarterly profit.");
-                headlines.add("Market fears potential supply chain delays causing minor stock losses.");
-                headlines.add("Analysts remain bullish on " + ticker + " following new product announcement.");
+                headlines = parseHeadlines(response.body());
+                
+                if (headlines.isEmpty()) {
+                    System.out.println("No recent news headlines found for " + ticker + ".");
+                    scanner.close();
+                    return;
+                }
 
+                System.out.println("Analyzed " + headlines.size() + " recent headlines.\n");
+                int score = calculateSentiment(headlines);
+                displayResults(ticker, score);
             } else {
-                System.out.println("Warning: Could not reach live feed. Using offline fallback headlines.");
-                headlines.add(ticker + " shows steady market growth.");
+                System.out.println("API Error: Received HTTP status " + response.statusCode() + ". Check your API key or ticker.");
             }
-            
-            // Sentiment Scoring Engine
-            int score = calculateSentiment(headlines);
-            
-            // Terminal Output and Rating
-            displayResults(ticker, score);
 
         } catch (Exception e) {
             System.out.println("Network error occurred: " + e.getMessage());
-
-            // Fallback for edge case testing
-            headlines.add(ticker + " faces unexpected market volatility and decline.");
-            int score = calculateSentiment(headlines);
-            displayResults(ticker, score);
         } finally {
             scanner.close();
         }
-    } // <-- End of main method
+    }
 
-    // Sentiment Scoring Engine (Moved outside main)
+    // Extract "headline":"..." values from Finnhub JSON without external libraries
+    public static List<String> parseHeadlines(String jsonBody) {
+        List<String> extracted = new ArrayList<>();
+        Pattern pattern = Pattern.compile("\"headline\":\"(.*?)\"");
+        Matcher matcher = pattern.matcher(jsonBody);
+
+        while (matcher.find()) {
+            // Unescape any escaped quotes inside the headline
+            String cleanHeadline = matcher.group(1).replace("\\\"", "\"");
+            extracted.add(cleanHeadline);
+        }
+        return extracted;
+    }
+
+    // Expanded Sentiment Scoring Engine
     public static int calculateSentiment(List<String> headlines) {
-        List<String> positiveWords = List.of("surge", "growth", "record", "profit", "bullish", "gain");
-        List<String> negativeWords = List.of("fall", "loss", "fear", "delay", "decline", "bearish", "volatility");
+        List<String> positiveWords = List.of(
+            "surge", "growth", "record", "profit", "bullish", "gain",
+            "beat", "rally", "upgrade", "soar", "dividend", "strong"
+        );
+        List<String> negativeWords = List.of(
+            "fall", "loss", "fear", "delay", "decline", "bearish", "volatility",
+            "miss", "slump", "downgrade", "lawsuit", "drop", "debt", "weak"
+        );
 
         int score = 0;
 
@@ -88,7 +114,7 @@ public class Main {
 
     // Display Results Method
     public static void displayResults(String ticker, int score) {
-        System.out.println("\n--- Sentiment Analysis Report for " + ticker + " ---");
+        System.out.println("--- Sentiment Analysis Report for " + ticker + " ---");
         System.out.println("Aggregate Score: " + score);
 
         String rating;
